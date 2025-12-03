@@ -45,7 +45,6 @@ tasks:
       - Taskfile.yaml
       - ../common/split.sh
       - ../common/Taskfile.yaml
-    silent: true
 
   env:
     deps:
@@ -206,7 +205,7 @@ tasks:
       - mkdir -p keycloak-cli
       - rm -f keycloak-cli/*.zip
       - >
-        curl -L -f https://github.com/keycloak/keycloak/releases/download/26.4.0/keycloak-26.4.0-SNAPSHOT.zip -o keycloak-cli/keycloak.zip
+        curl -L -f https://github.com/keycloak/keycloak/releases/download/26.4.6/keycloak-26.4.6.zip -o keycloak-cli/keycloak.zip
     status:
       - find keycloak-cli/keycloak.zip -mtime +1 -exec false {} +
     sources:
@@ -219,11 +218,11 @@ tasks:
     dir: ..
     cmds:
       # remove temporary folders to be extra safe
-      - rm -rf keycloak-cli/keycloak-26.4.0-SNAPSHOT
+      - rm -rf keycloak-cli/keycloak-26.4.6
       - rm -rf keycloak-cli/keycloak
       - unzip -o -q keycloak-cli/keycloak.zip -d keycloak-cli
       # the output folder depends on the version we're about to unpack
-      - mv keycloak-cli/keycloak-26.4.0-SNAPSHOT keycloak-cli/keycloak
+      - mv keycloak-cli/keycloak-26.4.6 keycloak-cli/keycloak
     sources:
       - keycloak-cli/keycloak.zip
       - minikube/.task/subtask-{{.TASK}}.yaml

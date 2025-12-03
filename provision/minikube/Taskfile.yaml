@@ -20,7 +20,6 @@ tasks:
     cmds:
       - echo Keycloak is ready for load testing!
       - bash -c ./isup.sh
-    silent: true
 
   ipchange:
     deps:
@@ -72,7 +71,7 @@ tasks:
       - kubectl create namespace monitoring || true
       - helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
       - helm repo update
-      - helm upgrade --install prometheus prometheus-community/kube-prometheus-stack --version 69.7.3 -f monitoring.yaml --set grafana."grafana\.ini".server.root_url=https://grafana.{{.IP}}.nip.io --set prometheus.prometheusSpec.retention={{.KB_RETENTION}}
+      - helm upgrade --install prometheus prometheus-community/kube-prometheus-stack --version 69.7.3 -f monitoring.yaml --set grafana."grafana\.ini".server.root_url=https://grafana.ted.local  --set prometheus.prometheusSpec.retention={{.KB_RETENTION}}
     sources:
       - monitoring.yaml
       - .task/subtask-{{.TASK}}.yaml
@@ -88,7 +87,7 @@ tasks:
       - loki
       - common:clone-keycloak-grafana-dashboards
     cmds:
-      - helm upgrade --install monitoring --set hostname={{.IP}}.nip.io monitoring
+      - helm upgrade --install monitoring --set hostname=ted.local  monitoring
     sources:
       - monitoring/**/*.*
       - .task/subtask-{{.TASK}}.yaml
@@ -157,7 +156,6 @@ tasks:
       - gatlinguser
     cmds:
       - bash -c "../../dataset/dataset-import.sh {{.CLI_ARGS}}"
-    silent: true
 
   gatlinguser:
     deps:
@@ -171,7 +169,7 @@ tasks:
       KEYCLOAK_HOME: "../keycloak-cli/keycloak"
     cmds:
       - bash -c ./isup.sh
-      - bash -c "../keycloak-cli/keycloak/bin/kcadm.sh config credentials --server https://keycloak-keycloak.{{.IP}}.nip.io/ --realm master --user admin --password admin"
+      - bash -c "../keycloak-cli/keycloak/bin/kcadm.sh config credentials --server https://keycloak-keycloak.ted.local / --realm master --user admin --password admin"
       - bash -c "../../benchmark/src/main/content/bin/initialize-benchmark-entities.sh -r test-realm -d"
     sources:
       - ../../benchmark/src/main/content/bin/initialize-benchmark-entities.sh
@@ -200,7 +198,7 @@ tasks:
       - kubectl -n keycloak apply -f https://raw.githubusercontent.com/keycloak/keycloak-k8s-resources/refs/tags/{{.KC_OPERATOR_TAG}}/kubernetes/kubernetes.yml || (kubectl -n keycloak delete deployment/keycloak-operator && kubectl -n keycloak apply -f https://raw.githubusercontent.com/keycloak/keycloak-k8s-resources/refs/tags/{{.KC_OPERATOR_TAG}}/kubernetes/kubernetes.yml)
       - >
         helm upgrade --install keycloak
-        --set hostname={{.IP}}.nip.io
+        --set hostname=ted.local
         --set otel={{.KC_OTEL}}
         --set otelSamplingPercentage={{.KC_OTEL_SAMPLING_PERCENTAGE}}
         --set dbPoolInitialSize={{.KC_DB_POOL_INITIAL_SIZE}}

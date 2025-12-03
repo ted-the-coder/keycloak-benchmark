@@ -183,12 +183,15 @@ spec:
       value: software.amazon.jdbc.Driver
 {{ end }}
   http:
-    tlsSecret: keycloak-tls-secret
+    httpEnabled: true
+    port: 8080
+
   instances: {{ .Values.instances }}
   # end::keycloak[]
   serviceMonitor:
     enabled: {{ .Values.monitoring }}
   unsupported:
+    devMode: true
     podTemplate:
       metadata:
         annotations:

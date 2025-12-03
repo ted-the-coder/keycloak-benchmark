@@ -8,7 +8,7 @@ fi
 # when no arguments was given
 if [ $# -eq 0 ]
 then
-  HOST=$(minikube ip).nip.io
+  HOST=ted.local
 else
   HOST=$0
 fi

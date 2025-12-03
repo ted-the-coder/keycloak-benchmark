@@ -28,3 +28,19 @@ https://github.com/keycloak/keycloak-benchmark/releases.
 == Further reading
 
 Read more on how to use it on https://www.keycloak.org/keycloak-benchmark/
+
+
+
+add the following to /etc/hosts
+```
+192.168.39.209     ted.local keycloak.ted.local grafana.ted.local kubebox.ted.local jaeger.ted.local prometheus.ted.local cryostat.ted.local
+# the ip is from "minikube ip"
+
+```
+
+access the keycloak
+http://keycloak.ted.local
+
+access grafana
+http://grfana.ted.local
+

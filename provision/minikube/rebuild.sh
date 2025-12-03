@@ -38,7 +38,8 @@ if [ "$GITHUB_ACTIONS" == "" ]; then
   minikube config set driver ${DRIVER}
   minikube config set container-runtime docker
   # the version of Kubernetes needs to be in-sync with `provision-minikube.yml`
-  minikube start --addons=ingress --disk-size=64GB --container-runtime=docker --driver=${DRIVER} --docker-opt="default-ulimit=nofile=102400:102400" --kubernetes-version=v1.27.10 --cni cilium
+  #minikube start --addons=ingress --disk-size=64GB --container-runtime=docker --driver=${DRIVER} --docker-opt="default-ulimit=nofile=102400:102400" --cni cilium
+  minikube start --addons=ingress --disk-size=64GB --container-runtime=docker --driver=${DRIVER} --docker-opt="default-ulimit=nofile=102400:102400"
 fi
 rm -rf .task
 echo "Minikube initialized. Now run 'task' to provision it with Keycloak"
